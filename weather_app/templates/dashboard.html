@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard – Stacja pogodowa</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        nav a {
+            margin-right: 1em;
+            text-decoration: none;
+            font-weight: bold;
+            color: #333;
+        }
+        .tab { display: none; }
+        .tab.active { display: block; }
+        img { max-width: 100%; border: 1px solid #ccc; padding: 10px; background: #f9f9f9; }
+
+        .latest {
+            margin-bottom: 1em;
+            padding: 1em;
+            background: #eef;
+            border-left: 5px solid #66f;
+        }
+
+        .tabs button {
+            padding: 0.5em 1em;
+            margin-right: 0.5em;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .tabs button.active {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function showTab(id) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tabs button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-tab="${id}"]`).classList.add('active');
+        }
+
+        // Auto-odświeżanie co 10 sekund
+        setTimeout(() => window.location.reload(), 10000);
+    </script>
+</head>
+<body>
+    <h1>🌦️ Dashboard – stacja pogodowa</h1>
+
+ <div class="latest">
+  {% if latest %}
+    <strong>Ostatni pomiar:</strong><br>
+    Temperatura: {{ latest.temperature }} °C,
+    Wilgotność: {{ latest.humidity }}%,
+    Ciśnienie: {{ latest.pressure }} hPa,
+    Opady: {{ latest.rain_mm }} mm,
+    Wiatr: {{ latest.wind_kmph }} km/h<br>
+    Czas: {{ latest.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}
+  {% else %}
+    <em>Brak danych w bazie – czekam na pierwszy pomiar…</em>
+  {% endif %}
+</div>
+
+    <div class="tabs">
+        <button data-tab="tab1" onclick="showTab('tab1')" class="active">🌡️ Temperatura i ciśnienie</button>
+        <button data-tab="tab2" onclick="showTab('tab2')">💧 Opady</button>
+        <button data-tab="tab3" onclick="showTab('tab3')">💨 Wiatr</button>
+        <a href="/history">📊 Historia</a>
+    </div>
+
+    <div id="tab1" class="tab active">
+        <h2>🌡️ Temperatura i ciśnienie</h2>
+        <img src="data:image/png;base64,{{ plot_temp_pressure }}">
+    </div>
+    <div id="tab2" class="tab">
+        <h2>💧 Opady</h2>
+        <img src="data:image/png;base64,{{ plot_rain }}">
+    </div>
+    <div id="tab3" class="tab">
+        <h2>💨 Wiatr</h2>
+        <img src="data:image/png;base64,{{ plot_wind }}">
+    </div>
+</body>
+</html>
