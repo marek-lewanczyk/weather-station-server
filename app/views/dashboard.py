@@ -3,12 +3,12 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from starlette.templating import Jinja2Templates
 
-from weather_app.database import get_db
-from weather_app.models import WeatherData
-from weather_app.utils.plotting import generate_plot
+from app.database import get_db
+from app.models import WeatherData
+from app.utils.plotting import generate_plot
 
 router = APIRouter()
-templates = Jinja2Templates(directory="weather_app/templates")
+templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request, db: Session = Depends(get_db)):
@@ -18,8 +18,7 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
         .order_by(WeatherData.timestamp.desc())
         .limit(10)
         .all()
-    )[::-1]  # chronologicznie
-
+    )[::-1]  # chronolog
     # Wykresy na zakładkach
     temp_pressure_plot = generate_plot(history, ["temperature", "pressure"])
     rain_plot           = generate_plot(history, ["rain_mm"])
