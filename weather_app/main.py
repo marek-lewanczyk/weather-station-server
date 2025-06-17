@@ -6,7 +6,7 @@ from weather_app.api.v1.endpoints import weather
 from weather_app.api.v1.router import api_router
 from weather_app.database import Base, engine
 from weather_app.views.dashboard import router as dashboard_router
-from weather_app.views.history import history
+from weather_app.views.history import router as history_router
 
 
 
@@ -19,4 +19,4 @@ app = FastAPI(
 
 app.include_router(api_router)
 app.include_router(dashboard_router)
-app.get("/history")(history)
+app.include_router(history_router)
