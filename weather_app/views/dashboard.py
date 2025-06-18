@@ -21,14 +21,17 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
     )[::-1]  # chronologicznie
 
     # Wykresy na zakładkach
-    temp_pressure_plot = generate_plot(history, ["temperature", "pressure"])
+    plot_temp = generate_plot(history, ["temperature"])
+    plot_pressure = generate_plot(history, ["pressure"])
     rain_plot           = generate_plot(history, ["rain_mm"])
     wind_plot           = generate_plot(history, ["wind_kmph"])
 
     return templates.TemplateResponse("dashboard.html", {
         "request": request,
         "latest": latest,
-        "plot_temp_pressure": temp_pressure_plot,
+        "plot_temp": plot_temp,
+        "plot_pressure": plot_pressure,
         "plot_rain": rain_plot,
         "plot_wind": wind_plot,
     })
+
