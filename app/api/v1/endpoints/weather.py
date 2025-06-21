@@ -4,7 +4,7 @@ from typing import List
 from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, status, Query, HTTPException
 from sqlalchemy.orm import Session
-from weather_app import models, schemas, crud, database
+from app import models, schemas, crud, database
 
 router = APIRouter()
 
