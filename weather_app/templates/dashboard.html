@@ -67,16 +67,21 @@
 </div>
 
     <div class="tabs">
-        <button data-tab="tab1" onclick="showTab('tab1')" class="active">🌡️ Temperatura i ciśnienie</button>
+        <button data-tab="tab1" onclick="showTab('tab1')" class="active">🌡️ Temperatura</button>
+        <button data-tab="tab4" onclick="showTab('tab4')">📈 Ciśnienie</button>
         <button data-tab="tab2" onclick="showTab('tab2')">💧 Opady</button>
         <button data-tab="tab3" onclick="showTab('tab3')">💨 Wiatr</button>
         <a href="/history">📊 Historia</a>
     </div>
 
     <div id="tab1" class="tab active">
-        <h2>🌡️ Temperatura i ciśnienie</h2>
-        <img src="data:image/png;base64,{{ plot_temp_pressure }}">
-    </div>
+          <h2>🌡️ Temperatura</h2>
+    <img src="data:image/png;base64,{{ plot_temp }}">
+</div>
+    <div id="tab4" class="tab">
+    <h2>📈 Ciśnienie</h2>
+    <img src="data:image/png;base64,{{ plot_pressure }}">
+</div>
     <div id="tab2" class="tab">
         <h2>💧 Opady</h2>
         <img src="data:image/png;base64,{{ plot_rain }}">

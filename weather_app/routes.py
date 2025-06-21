@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from app import schemas, crud, database
+from weather_app import schemas, crud, database
 
 router = APIRouter()
 
